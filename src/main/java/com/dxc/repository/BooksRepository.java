@@ -18,7 +18,7 @@ public interface BooksRepository extends JpaRepository<Books, Integer> {
 //
 //	Optional<Books> findByAuthor(String author);
 	@Query(value = "SELECT * FROM books WHERE title = :title", nativeQuery = true)
-    List<Books> findByTitle(@Param("title") String title );
+    Optional<Books> findByTitle(@Param("title") String title );
  
  @Query(value = "SELECT * FROM books WHERE title = :title AND author = :author", nativeQuery = true)
     Books findById(@Param("title") String title, @Param("author") String author);

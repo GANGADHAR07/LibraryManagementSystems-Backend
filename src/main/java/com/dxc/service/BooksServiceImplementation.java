@@ -1,6 +1,8 @@
 package com.dxc.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,8 +35,8 @@ public class BooksServiceImplementation implements BooksService {
 
 	@Override
 	@Transactional
-	public List<Books> findByTitle(String title) {
-		 List<Books> theBooks = booksRepository.findByTitle(title);
+	public Optional<Books> findByTitle(String title) {
+		 Optional<Books> theBooks = booksRepository.findByTitle(title);
 		
 			return theBooks;
 		
@@ -54,7 +56,11 @@ public class BooksServiceImplementation implements BooksService {
 		return theBooks;
 	}
 	
-	
-
-	
+	public Books Update(Books theBooks) {
+		Optional<Books> res = booksRepository.findByTitle(theBooks.getTitle());
+		if(res.isPresent()) {
+			booksRepository.save(theBooks);
+		}
+		return theBooks;
+	}
 }

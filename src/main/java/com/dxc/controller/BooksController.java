@@ -1,6 +1,7 @@
 package com.dxc.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,7 +17,7 @@ import com.dxc.model.Books;
 import com.dxc.service.BooksService;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api")
 public class BooksController  {
 	@Autowired
 	private BooksService booksService;
@@ -27,10 +28,10 @@ public class BooksController  {
 		return booksService.findAll();
 	}
 	@CrossOrigin
-	@GetMapping("/books/{title}")
-	public List<Books> getBooksByTitle(@PathVariable String title) {
+	@GetMapping("/book/{title}")
+	public Optional<Books> getBooksByTitle(@PathVariable String title) {
 		
-		List<Books> theBook = (List<Books>) booksService.findByTitle(title);
+		Optional<Books> theBook =  booksService.findByTitle(title);
 		
 		if (theBook == null) {
 			throw new RuntimeException("Book not found - " + title);
@@ -39,7 +40,7 @@ public class BooksController  {
 		return theBook;
 	}
 	@CrossOrigin
-	@GetMapping("/book/{author}")
+	@GetMapping("/books/{author}")
 	public List<Books> getBooksByAuthor(@PathVariable String author) {
 		
 		List<Books> theBook = (List<Books>) booksService.findByAuthor(author);
@@ -72,7 +73,7 @@ public class BooksController  {
 	@PutMapping("/book")
 	public Books updateBook(@RequestBody Books theBooks) {
 		
-		booksService.save(theBooks);
+		booksService.Update(theBooks);
 		
 		return theBooks;
 	}
